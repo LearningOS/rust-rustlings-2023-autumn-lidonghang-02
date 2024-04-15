@@ -19,7 +19,21 @@
 // Execute `rustlings hint errors2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+//假设我们正在编写一个游戏，您可以在其中使用代币购买物品。所有物品费用
+//5个代币，每当您购买物品时，都会产生1个手续费
+//令牌。游戏玩家将输入他们想要购买的物品数量，然后
+//`total_cost` 函数将计算代币的总成本。自从
+//玩家输入数量，但我们将其作为字符串获取——而他们
+//可能输入了任何内容，而不仅仅是数字！
+//
+//现在，这个函数根本不处理错误情况（并且不是
+//正确处理成功案例）。我们想要做的是：如果我们调用
+//对非数字字符串的“parse”函数，该函数将
+//返回一个 `ParseIntError`，在这种情况下，我们希望立即返回
+//这个错误来自我们的函数，而不是尝试乘法和加法。
+//
+//至少有两种实现此目的的方法都是正确的——但只有一种
+//短了很多！
 
 use std::num::ParseIntError;
 
@@ -28,7 +42,10 @@ pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
     let cost_per_item = 5;
     let qty = item_quantity.parse::<i32>();
 
-    Ok(qty * cost_per_item + processing_fee)
+    match qty {
+        Ok(n) => Ok(n * cost_per_item + processing_fee),
+        Err(e) => Err(e),
+    }
 }
 
 #[cfg(test)]

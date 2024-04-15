@@ -9,16 +9,28 @@
 // Execute `rustlings hint errors1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
-pub fn generate_nametag_text(name: String) -> Option<String> {
+pub fn generate_nametag_text(name: String) -> Result<String, String> {
     if name.is_empty() {
         // Empty names aren't allowed.
-        None
+        Err("`name` was empty; it must be nonempty.".to_string())
+        // None
     } else {
-        Some(format!("Hi! My name is {}", name))
+        Ok(format!("Hi! My name is {}", name))
+        // Some(format!("Hi! My name is {}", name))
     }
 }
+
+// `Ok` and `Err` are one of the variants of `Result`, so what the tests are saying
+// is that `generate_nametag_text` should return a `Result` instead of an
+// `Option`.
+
+// To make this change, you'll need to:
+//    - update the return type in the function signature to be a Result<String, String> that
+//      could be the variants `Ok(String)` and `Err(String)`
+//    - change the body of the function to return `Ok(stuff)` where it currently
+//      returns `Some(stuff)`
+//    - change the body of the function to return `Err(error message)` where it
+//      currently returns `None`
 
 #[cfg(test)]
 mod tests {

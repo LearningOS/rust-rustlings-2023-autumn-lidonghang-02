@@ -3,8 +3,6 @@
 // Execute `rustlings hint iterators4` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 pub fn factorial(num: u64) -> u64 {
     // Complete this function to return the factorial of num
     // Do not use:
@@ -15,6 +13,20 @@ pub fn factorial(num: u64) -> u64 {
     // For an extra challenge, don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+    //完成此函数以返回 num 的阶乘
+    //不使用：
+    //-返回
+    //尽量不要使用：
+    //-命令式循环（for、while）
+    //-附加变量
+    //对于额外的挑战，不要使用：
+    //-递归
+
+    if num == 0 {
+        1
+    } else {
+        num * factorial(num - 1)
+    }
 }
 
 #[cfg(test)]

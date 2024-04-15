@@ -14,7 +14,14 @@
 // Execute `rustlings hint hashmaps2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+//我们正在收集不同的水果来烘烤美味的水果蛋糕。为了这，
+//我们有一个篮子，我们将以哈希图的形式表示。钥匙
+//代表我们采集的每个水果的名称，值代表如何采集
+//我们收集了许多特定的水果。三种水果——
+//苹果 (4)、芒果 (2) 和荔枝 (5) 已经在篮子哈希图中。你
+//必须将水果添加到篮子中，以便每种水果至少有一个并且
+//总共超过 11 个 -我们有很多张嘴要喂。你没有权限
+//插入更多这些水果！
 
 use std::collections::HashMap;
 
@@ -40,6 +47,9 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
         // TODO: Insert new fruits if they are not already present in the
         // basket. Note that you are not allowed to put any type of fruit that's
         // already present!
+        if !basket.contains_key(&fruit) {
+            basket.insert(fruit, 11);
+        }
     }
 }
 
@@ -81,7 +91,7 @@ mod tests {
         let count = basket.values().sum::<u32>();
         assert!(count > 11);
     }
-    
+
     #[test]
     fn all_fruit_types_in_basket() {
         let mut basket = get_fruit_basket();

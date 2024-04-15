@@ -14,7 +14,14 @@
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+//给出了一场足球比赛的得分列表（每行一个）。每行都是
+//格式：“<team_1_name>,<team_2_name>,<team_1_goals>,<team_2_goals>”
+//示例：英格兰、法国、4,2（英格兰进 4 球，法国进 2 球）。
+//
+//你必须建立一个分数表，其中包含球队名称、进球数
+//球队进球数和失球数。建立分数的一种方法
+//table就是使用Hashmap。该解决方案部分编写为使用
+//Hashmap，完成它以通过测试。
 
 use std::collections::HashMap;
 
@@ -39,6 +46,34 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        if !scores.contains_key(&team_1_name) {
+            scores.insert(
+                team_1_name,
+                Team {
+                    goals_scored: team_1_score,
+                    goals_conceded: team_2_score,
+                },
+            );
+        } else {
+            if let Some(team) = scores.get_mut(&team_1_name) {
+                team.goals_scored += team_1_score;
+                team.goals_conceded += team_2_score;
+            }
+        }
+        if !scores.contains_key(&team_2_name) {
+            scores.insert(
+                team_2_name,
+                Team {
+                    goals_scored: team_2_score,
+                    goals_conceded: team_1_score,
+                },
+            );
+        } else {
+            if let Some(team) = scores.get_mut(&team_2_name) {
+                team.goals_scored += team_2_score;
+                team.goals_conceded += team_1_score;
+            }
+        }
     }
     scores
 }
