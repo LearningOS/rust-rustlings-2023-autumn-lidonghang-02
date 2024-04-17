@@ -31,8 +31,6 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
-
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
 // 2. Split the given string on the commas present in it
@@ -43,6 +41,16 @@ enum ParsePersonError {
 //    `usize` as the age with something like `"4".parse::<usize>()`
 // 6. If while extracting the name and the age something goes wrong, an error
 //    should be returned
+//1. 如果提供的字符串长度为0，则返回错误
+//2. 用逗号分割给定的字符串
+//3. split只能返回2个元素，否则返回一个
+//   错误
+//4. 从 split 操作中提取第一个元素并将其用作名称
+//5. 从 split 操作中提取另一个元素并将其解析为
+//`usize` 作为年龄，类似于 `"4".parse::<usize>()`
+//6. 如果在提取姓名和年龄时出现问题，则会出现错误
+//应该返回
+
 // If everything goes well, then return a Result of a Person object
 //
 // As an aside: `Box<dyn Error>` implements `From<&'_ str>`. This means that if
@@ -52,6 +60,27 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.len() == 0 {
+            Err(ParsePersonError::Empty)
+        } else {
+            let split = s.split(",");
+
+            let split_vec: Vec<&str> = split.collect();
+            if split_vec.len() != 2 {
+                return Err(ParsePersonError::BadLen);
+            } else if split_vec[0].to_string().len() == 0 {
+                return Err(ParsePersonError::NoName);
+            } else if split_vec[1].parse::<usize>().is_err() {
+                return Err(ParsePersonError::ParseInt(
+                    split_vec[1].parse::<usize>().unwrap_err(),
+                ));
+            }
+
+            Ok(Person {
+                name: split_vec[0].to_string(),
+                age: split_vec[1].parse().unwrap(),
+            })
+        }
     }
 }
 

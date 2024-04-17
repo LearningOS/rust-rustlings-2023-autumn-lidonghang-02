@@ -5,6 +5,10 @@
 // wait until all the spawned threads have finished and should collect their
 // return values into a vector.
 //
+//该程序生成多个线程，每个线程运行至少 250 毫秒，并且
+//每个线程返回完成所需的时间。该程序应该
+//等待所有生成的线程完成并收集它们的线程
+//将值返回到向量中。
 // Execute `rustlings hint threads1` or use the `hint` watch subcommand for a
 // hint.
 
@@ -25,6 +29,7 @@ fn main() {
     let mut results: Vec<u128> = vec![];
     for handle in handles {
         // TODO: a struct is returned from thread::spawn, can you use it?
+        results.push(handle.join().unwrap());
     }
 
     if results.len() != 10 {

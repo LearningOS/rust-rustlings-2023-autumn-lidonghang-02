@@ -27,15 +27,29 @@
 //
 // You should NOT modify any existing code except for adding two lines of attributes.
 
-// I AM NOT DONE
+//外部导入的函数在extern块中声明，并用分号表示
+//标记签名的结尾而不是大括号。一些属性可以应用于那些
+//修改链接行为的函数声明，例如#[link_name = ".."] 到
+//修改实际的符号名称。
+//
+//如果要将符号导出到链接环境，可以使用 `extern` 关键字
+//也可以在函数定义之前使用相同的 ABI 字符串注释进行标记。默认 ABI
+//对于 Rust 函数来说，字面意思是“Rust”，所以如果你想链接到纯 Rust 函数，
+//整个外部术语可以省略。
+//
+//Rust 默认情况下会损坏符号，就像 C++ 一样。为了抑制这种行为并使
+//那些可通过名称寻址的函数，可以应用属性#[no_mangle]。
+
+// You should NOT modify any existing code except for adding two lines of attributes.
 
 extern "Rust" {
     fn my_demo_function(a: u32) -> u32;
+    #[link_name = "my_demo_function"]
     fn my_demo_function_alias(a: u32) -> u32;
 }
-
 mod Foo {
     // No `extern` equals `extern "Rust"`.
+    #[no_mangle]
     fn my_demo_function(a: u32) -> u32 {
         a
     }
@@ -53,6 +67,7 @@ mod tests {
         //
         // SAFETY: We know those functions are aliases of a safe
         // Rust function.
+
         unsafe {
             my_demo_function(123);
             my_demo_function_alias(456);
